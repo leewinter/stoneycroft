@@ -1,5 +1,5 @@
 import { Button } from 'antd'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 type HomeProject = {
@@ -28,6 +28,8 @@ const fallbackContent: HomeContent = {
 
 export default function HomePage() {
   const [content, setContent] = useState<HomeContent>(fallbackContent)
+  const heroRef = useRef<HTMLDivElement | null>(null)
+  const bgRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
     fetch('/api/home/public')
@@ -45,6 +47,30 @@ export default function HomePage() {
       .catch(() => null)
   }, [])
 
+  useEffect(() => {
+    const hero = heroRef.current
+    const bg = bgRef.current
+    if (!hero || !bg) return
+
+    let raf = 0
+    const handleMove = (event: MouseEvent) => {
+      if (raf) cancelAnimationFrame(raf)
+      raf = requestAnimationFrame(() => {
+        const rect = hero.getBoundingClientRect()
+        const x = (event.clientX - rect.left) / rect.width - 0.5
+        const y = (event.clientY - rect.top) / rect.height - 0.5
+        const max = 8
+        bg.style.transform = `translate3d(${x * max}%, ${y * max}%, 0)`
+      })
+    }
+
+    hero.addEventListener('mousemove', handleMove)
+    return () => {
+      hero.removeEventListener('mousemove', handleMove)
+      if (raf) cancelAnimationFrame(raf)
+    }
+  }, [])
+
   const visibleProjects = content.projects.filter((project) => project.active)
 
   return (
@@ -56,7 +82,8 @@ export default function HomePage() {
           </Button>
         </Link>
       </header>
-      <section className="hero home-hero">
+      <section className="hero home-hero" ref={heroRef}>
+        <div className="home-hero__bg" ref={bgRef} />
         <p className="eyebrow">{content.tagline}</p>
         <h1>{content.headline}</h1>
         <p className="lede">{content.blurb}</p>

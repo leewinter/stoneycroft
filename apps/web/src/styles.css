@@ -42,8 +42,36 @@ body {
 .home-hero {
   display: grid;
   gap: 14px;
-  min-height: clamp(520px, 70vh, 820px);
+  min-height: clamp(360px, 52vh, 620px);
   padding: clamp(48px, 8vw, 96px);
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.home-hero > *:not(.home-hero__bg) {
+  position: relative;
+  z-index: 1;
+}
+
+.home-hero__bg {
+  position: absolute;
+  inset: -12%;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(120, 92, 230, 0.35), transparent 55%),
+    radial-gradient(circle at 80% 10%, rgba(48, 210, 255, 0.25), transparent 45%),
+    radial-gradient(circle at 40% 80%, rgba(255, 112, 128, 0.2), transparent 55%),
+    linear-gradient(135deg, rgba(32, 24, 56, 0.7), rgba(12, 10, 20, 0.9));
+  filter: blur(0px);
+  transform: translate3d(0, 0, 0);
+  transition: transform 120ms ease-out;
+  z-index: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-hero__bg {
+    transition: none;
+  }
 }
 
 .home-actions {
