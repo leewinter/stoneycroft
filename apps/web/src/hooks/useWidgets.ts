@@ -6,12 +6,17 @@ export type LogViewerWidgetConfig = {
   query: string
 }
 
-export type WidgetType = 'log' | 'users'
+export type WidgetType = 'log' | 'users' | 'home'
 
 export type WidgetConfigMap = {
   log: LogViewerWidgetConfig
   users: {
     showActiveOnly: boolean
+  }
+  home: {
+    headline: string
+    tagline: string
+    blurb: string
   }
 }
 
@@ -36,7 +41,7 @@ function loadWidgets(): Widget[] {
     if (!raw) return []
     const parsed = JSON.parse(raw) as Widget[]
     if (!Array.isArray(parsed)) return []
-    const allowed = new Set<WidgetType>(['log', 'users'])
+    const allowed = new Set<WidgetType>(['log', 'users', 'home'])
     return parsed
       .filter((item) => allowed.has((item as Widget).type))
       .map((item) => {

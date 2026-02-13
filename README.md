@@ -28,6 +28,9 @@ Create a `.env` file in the repo root (same level as `package.json`). Use `.env.
 - `APP_ORIGIN` (string)
   - Base URL used to construct the magic link.
   - Dev default: `http://localhost:5173`.
+- `DATA_DIR` (string)
+  - Directory for persisted home page content.
+  - Default: `./data`.
 
 **SMTP**
 - `SMTP_HOST` (string)

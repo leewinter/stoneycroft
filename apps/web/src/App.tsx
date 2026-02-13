@@ -9,6 +9,7 @@ import { useTheme } from './hooks/useTheme'
 import OverviewPage from './pages/OverviewPage'
 import SettingsPage from './pages/SettingsPage'
 import DynamicPage from './pages/DynamicPage'
+import HomePage from './pages/HomePage'
 
 export default function App() {
   const {
@@ -23,6 +24,18 @@ export default function App() {
     logout
   } = useAuth()
   const { themeKey, themeConfig, setTheme } = useTheme()
+  const authPanel = isMagic ? (
+    <VerifyPanel isLoading={isLoading} status={status} />
+  ) : (
+    <AuthForm
+      email={email}
+      isLoading={isLoading}
+      status={status}
+      statusTone={statusTone}
+      onEmailChange={setEmail}
+      onSubmit={requestLink}
+    />
+  )
 
   if (user && !isMagic) {
     return (
@@ -50,20 +63,12 @@ export default function App() {
   return (
     <ConfigProvider theme={themeConfig}>
       <div className="page">
-        <AuthHero>
-          {isMagic ? (
-            <VerifyPanel isLoading={isLoading} status={status} />
-          ) : (
-            <AuthForm
-              email={email}
-              isLoading={isLoading}
-              status={status}
-              statusTone={statusTone}
-              onEmailChange={setEmail}
-              onSubmit={requestLink}
-            />
-          )}
-        </AuthHero>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<AuthHero>{authPanel}</AuthHero>} />
+          <Route path="/magic" element={<AuthHero>{authPanel}</AuthHero>} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
       </div>
     </ConfigProvider>
   )

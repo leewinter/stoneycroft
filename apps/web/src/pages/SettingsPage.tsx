@@ -1,6 +1,7 @@
 import { Button, Input, Modal, Select } from 'antd'
 import LogViewer from '../components/logs/LogViewer'
 import UsersWidget from '../components/widgets/UsersWidget'
+import HomeWidget from '../components/widgets/HomeWidget'
 import { useCustomPages } from '../hooks/useCustomPages'
 import { useWidgets } from '../hooks/useWidgets'
 import { menuIconOptions } from '../lib/menuIcons'
@@ -20,6 +21,14 @@ export default function SettingsPage() {
         type: 'users'
         config: {
           showActiveOnly: boolean
+        }
+      }
+    | {
+        type: 'home'
+        config: {
+          headline: string
+          tagline: string
+          blurb: string
         }
       }
     | null
@@ -152,6 +161,16 @@ export default function SettingsPage() {
           })()
         }
       />
+      <HomeWidget
+        showSave
+        requireDirty={false}
+        onSaveWidget={(config) =>
+          (() => {
+            setPendingSave({ type: 'home', config })
+            setIsDestinationOpen(true)
+          })()
+        }
+      />
       <Modal
         title="Choose widget destination"
         open={isDestinationOpen}
@@ -168,10 +187,17 @@ export default function SettingsPage() {
               pageId: targetPage,
               config: pendingSave.config
             })
-          } else {
+          } else if (pendingSave.type === 'users') {
             addWidget({
               type: 'users',
               title: 'Users',
+              pageId: targetPage,
+              config: pendingSave.config
+            })
+          } else {
+            addWidget({
+              type: 'home',
+              title: 'Home content',
               pageId: targetPage,
               config: pendingSave.config
             })

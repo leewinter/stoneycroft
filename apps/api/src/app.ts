@@ -8,6 +8,7 @@ import { getSession, pruneExpired } from './auth/service'
 import { registerAuthRoutes } from './routes/auth'
 import { registerHealthRoutes } from './routes/health'
 import { registerLogRoutes } from './routes/logs'
+import { registerHomeRoutes } from './routes/home'
 import { registerUserRoutes } from './routes/users'
 
 export function createApp() {
@@ -18,7 +19,8 @@ export function createApp() {
     '/api/auth/request',
     '/api/auth/verify',
     '/api/auth/logout',
-    '/api/logs/enabled'
+    '/api/logs/enabled',
+    '/api/home/public'
   ])
 
   app.use('/api/*', async (c, next) => {
@@ -39,6 +41,7 @@ export function createApp() {
 
   registerHealthRoutes(app)
   registerLogRoutes(app)
+  registerHomeRoutes(app)
   registerUserRoutes(app)
   registerAuthRoutes(app)
 

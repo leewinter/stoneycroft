@@ -5,3 +5,4 @@ apps/api/dist
 .env
 .env.*
 !.env.example
+apps/api/data/home.json

@@ -16,6 +16,7 @@ for (const envPath of envCandidates) {
 
 export const env = {
   appOrigin: process.env.APP_ORIGIN,
+  dataDir: process.env.DATA_DIR ?? path.resolve(process.cwd(), 'data'),
   smtpHost: process.env.SMTP_HOST,
   smtpPort: Number(process.env.SMTP_PORT ?? 587),
   smtpUser: process.env.SMTP_USER,

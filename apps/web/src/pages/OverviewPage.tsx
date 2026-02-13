@@ -2,6 +2,7 @@ import LogViewer from '../components/logs/LogViewer'
 import { useWidgets } from '../hooks/useWidgets'
 import WidgetCard from '../components/widgets/WidgetCard'
 import UsersWidget from '../components/widgets/UsersWidget'
+import HomeWidget from '../components/widgets/HomeWidget'
 
 export default function OverviewPage() {
   const { widgets, removeWidget, updateWidgetConfig } = useWidgets()
@@ -28,6 +29,16 @@ export default function OverviewPage() {
               saveLabel="Save changes"
               onSaveWidget={(config) =>
                 updateWidgetConfig(widget.id, 'users', config)
+              }
+            />
+        )
+      case 'home':
+        return (
+            <HomeWidget
+              showSave
+              saveLabel="Save changes"
+              onSaveWidget={(config) =>
+                updateWidgetConfig(widget.id, 'home', config)
               }
             />
         )
