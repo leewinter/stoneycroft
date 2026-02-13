@@ -29,6 +29,14 @@ export default function SettingsPage() {
           headline: string
           tagline: string
           blurb: string
+          projects: {
+            id: string
+            name: string
+            url: string
+            image: string
+            description: string
+            active: boolean
+          }[]
         }
       }
     | null

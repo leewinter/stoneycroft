@@ -14,6 +14,8 @@ import { registerUserRoutes } from './routes/users'
 export function createApp() {
   const app = new Hono()
 
+  app.use('/uploads/*', serveStatic({ root: env.dataDir }))
+
   const publicApiPaths = new Set([
     '/api/health',
     '/api/auth/request',

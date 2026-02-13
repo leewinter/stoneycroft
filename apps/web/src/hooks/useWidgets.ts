@@ -17,6 +17,14 @@ export type WidgetConfigMap = {
     headline: string
     tagline: string
     blurb: string
+    projects: {
+      id: string
+      name: string
+      url: string
+      image: string
+      description: string
+      active: boolean
+    }[]
   }
 }
 

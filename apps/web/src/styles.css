@@ -1,7 +1,7 @@
-﻿:root {
+:root {
   font-family: "Space Grotesk", "IBM Plex Sans", system-ui, sans-serif;
-  color: #101018;
-  background: radial-gradient(circle at top, #f7f1ff 0%, #f8f4e6 35%, #e6f6ff 100%);
+  color: #e6e8f2;
+  background: radial-gradient(circle at top, #1b1a2a 0%, #14121f 40%, #0b0a12 100%);
 }
 
 * {
@@ -55,15 +55,175 @@ body {
 
 .home-meta {
   font-size: 0.9rem;
-  color: #4b4558;
+  color: #a29cb4;
+}
+
+.home-projects {
+  display: grid;
+  gap: 16px;
+}
+
+.home-projects h2 {
+  margin: 0;
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+}
+
+.home-projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+}
+
+.home-projects-grid--fixed {
+  grid-template-columns: repeat(auto-fill, 440px);
+  justify-content: start;
+}
+
+.home-projects-editor .home-projects-grid--fixed {
+  grid-template-columns: repeat(auto-fill, 320px);
+}
+
+.home-project {
+  border-radius: 18px;
+  overflow: hidden;
+  background: rgba(18, 16, 28, 0.92);
+  border: 1px solid rgba(160, 148, 190, 0.18);
+  box-shadow: 0 14px 28px rgba(6, 5, 12, 0.5);
+  display: grid;
+  min-height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 240ms ease, box-shadow 240ms ease;
+}
+
+.home-project:hover {
+  transform: perspective(900px) rotateX(10deg) translateY(-4px);
+  box-shadow: 0 22px 48px rgba(6, 5, 12, 0.7);
+}
+
+.home-project__image {
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  background: #221f33;
+}
+
+.home-project__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.home-project__body {
+  padding: 14px;
+  display: grid;
+  gap: 8px;
+}
+
+.home-project__body h3 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.home-project__body p {
+  margin: 0;
+  color: #a29cb4;
+  line-height: 1.45;
+}
+
+.home-project__body a {
+  color: #d7c8ff;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.home-project__link {
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 200ms ease, transform 200ms ease;
+}
+
+.home-project:hover .home-project__link {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (hover: none) {
+  .home-project {
+    transform: none;
+  }
+  .home-project__link {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.home-projects-editor {
+  display: grid;
+  gap: 16px;
+}
+
+.home-projects-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.home-projects-header h4 {
+  margin: 0;
+}
+
+.home-project-card {
+  border-radius: 16px;
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  background: rgba(255, 255, 255, 0.6);
+  padding: 14px;
+  display: grid;
+  gap: 12px;
+}
+
+.home-project-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.home-project-card__title {
+  font-weight: 600;
+}
+
+.home-project-card__actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.home-project-card__body {
+  margin-bottom: 0;
+}
+
+.home-project-preview {
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(160, 148, 190, 0.18);
+  background: #ece9f4;
+}
+
+.home-project-preview img {
+  width: 100%;
+  height: auto;
+  display: block;
 }
 
 .hero {
   max-width: 100%;
   padding: 48px 40px;
   border-radius: 28px;
-  background: rgba(255, 255, 255, 0.85);
-  box-shadow: 0 30px 80px rgba(20, 10, 50, 0.12);
+  background: rgba(18, 16, 28, 0.9);
+  box-shadow: 0 30px 80px rgba(6, 5, 12, 0.55);
   backdrop-filter: blur(12px);
 }
 
@@ -71,7 +231,7 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.2em;
   font-size: 0.8rem;
-  color: #5b4a7f;
+  color: #b6a8d6;
   margin: 0 0 12px;
 }
 
@@ -84,7 +244,7 @@ h1 {
   margin: 0 0 24px;
   line-height: 1.7;
   font-size: clamp(1.05rem, 2.4vw, 1.35rem);
-  color: #2b2b36;
+  color: #c6c7d6;
 }
 
 .panel {
@@ -105,7 +265,7 @@ h1 {
   font-size: 0.9rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #5b4a7f;
+  color: #b6a8d6;
 }
 
 .form input {
@@ -133,7 +293,7 @@ h1 {
 
 .status-text {
   margin: 0;
-  color: #3a3260;
+  color: #d7c8ff;
 }
 
 .status-text.is-error {
@@ -145,6 +305,7 @@ h1 {
   border-radius: 20px;
   overflow: hidden;
   background: #f8f4e6;
+  color: #101018;
 }
 
 .app-logo {
@@ -192,13 +353,13 @@ h1 {
 
 .settings-summary p {
   margin: 0;
-  color: #4b4558;
+  color: #a29cb4;
 }
 
 .settings-card {
   border-radius: 18px;
   padding: 18px;
-  border: 1px solid rgba(15, 23, 42, 0.08);
+  border: 1px solid rgba(160, 148, 190, 0.18);
   background: rgba(255, 255, 255, 0.8);
 }
 
@@ -208,7 +369,7 @@ h1 {
 
 .settings-card__header p {
   margin: 0;
-  color: #4b4558;
+  color: #a29cb4;
 }
 
 .settings-card__controls {
@@ -256,7 +417,7 @@ h1 {
 .widget-card {
   border-radius: 18px;
   padding: 18px;
-  border: 1px solid rgba(15, 23, 42, 0.08);
+  border: 1px solid rgba(160, 148, 190, 0.18);
   background: rgba(255, 255, 255, 0.8);
 }
 
@@ -395,7 +556,7 @@ h1 {
   align-items: center;
   gap: 8px;
   font-size: 0.9rem;
-  color: #2b2b36;
+  color: #c6c7d6;
 }
 
 @keyframes logFlash {
@@ -413,7 +574,7 @@ h1 {
 
 .app-content-placeholder p {
   margin: 0;
-  color: #4b4558;
+  color: #a29cb4;
 }
 
 @media (max-width: 600px) {
@@ -425,3 +586,4 @@ h1 {
     padding: 32px 16px;
   }
 }
+

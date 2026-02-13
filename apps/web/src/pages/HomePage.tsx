@@ -2,17 +2,28 @@ import { Button } from 'antd'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
+type HomeProject = {
+  id: string
+  name: string
+  url: string
+  image: string
+  description: string
+  active: boolean
+}
+
 type HomeContent = {
   headline: string
   tagline: string
   blurb: string
+  projects: HomeProject[]
 }
 
 const fallbackContent: HomeContent = {
   headline: 'Keep your ops view focused, fast, and human.',
   tagline: 'Stoneycroft',
   blurb:
-    'Stoneycroft gives your team a calm control room for logs, users, and the essentials. Sign in with a magic link to get started.'
+    'Stoneycroft gives your team a calm control room for logs, users, and the essentials. Sign in with a magic link to get started.',
+  projects: []
 }
 
 export default function HomePage() {
@@ -27,11 +38,14 @@ export default function HomePage() {
         setContent({
           headline: next.headline || fallbackContent.headline,
           tagline: next.tagline || fallbackContent.tagline,
-          blurb: next.blurb || fallbackContent.blurb
+          blurb: next.blurb || fallbackContent.blurb,
+          projects: Array.isArray(next.projects) ? next.projects : []
         })
       })
       .catch(() => null)
   }, [])
+
+  const visibleProjects = content.projects.filter((project) => project.active)
 
   return (
     <div className="public-layout">
@@ -46,13 +60,37 @@ export default function HomePage() {
         <p className="eyebrow">{content.tagline}</p>
         <h1>{content.headline}</h1>
         <p className="lede">{content.blurb}</p>
-        <div className="home-actions">
-          <Link to="/login">
-            <Button type="primary">Get a magic link</Button>
-          </Link>
-          <span className="home-meta">No password required.</span>
-        </div>
       </section>
+      {visibleProjects.length > 0 && (
+        <section className="home-projects">
+          <h2>Projects</h2>
+          <div className="home-projects-grid home-projects-grid--fixed">
+            {visibleProjects.map((project, index) => (
+              <article key={project.id || project.url || `${project.name}-${index}`} className="home-project">
+                {project.image && (
+                  <div className="home-project__image">
+                    <img src={project.image} alt={project.name} loading="lazy" />
+                  </div>
+                )}
+                <div className="home-project__body">
+                  <h3>{project.name}</h3>
+                  {project.description && <p>{project.description}</p>}
+                  {project.url && (
+                    <a
+                      className="home-project__link"
+                      href={project.url}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      Visit project
+                    </a>
+                  )}
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
     </div>
   )
 }

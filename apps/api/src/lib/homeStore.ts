@@ -1,11 +1,22 @@
 import fs from 'node:fs'
 import path from 'node:path'
+import crypto from 'node:crypto'
 import { env } from '../config/env'
+
+export type HomeProject = {
+  id: string
+  name: string
+  url: string
+  image: string
+  description: string
+  active: boolean
+}
 
 export type HomeContent = {
   headline: string
   tagline: string
   blurb: string
+  projects: HomeProject[]
 }
 
 const filePath = path.join(env.dataDir, 'home.json')
@@ -17,7 +28,27 @@ function ensureDir() {
 const emptyContent: HomeContent = {
   headline: '',
   tagline: '',
-  blurb: ''
+  blurb: '',
+  projects: []
+}
+
+function makeId() {
+  return crypto.randomUUID()
+}
+
+function normalizeProjects(input: unknown): HomeProject[] {
+  if (!Array.isArray(input)) return []
+  return input.map((project) => {
+    const item = (project ?? {}) as Partial<HomeProject>
+    return {
+      id: item.id ? item.id : makeId(),
+      name: item.name ?? '',
+      url: item.url ?? '',
+      image: item.image ?? '',
+      description: item.description ?? '',
+      active: item.active ?? true
+    }
+  })
 }
 
 export function readHomeContent(): HomeContent {
@@ -27,7 +58,8 @@ export function readHomeContent(): HomeContent {
     return {
       headline: parsed?.headline ?? '',
       tagline: parsed?.tagline ?? '',
-      blurb: parsed?.blurb ?? ''
+      blurb: parsed?.blurb ?? '',
+      projects: normalizeProjects(parsed?.projects)
     }
   } catch {
     return emptyContent
