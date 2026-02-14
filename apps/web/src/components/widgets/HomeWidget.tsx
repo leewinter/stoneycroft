@@ -5,6 +5,7 @@ type HomeProject = {
   id: string
   name: string
   url: string
+  sourceUrl: string
   image: string
   description: string
   active: boolean
@@ -39,6 +40,7 @@ const emptyProject = (): HomeProject => ({
   id: makeId(),
   name: '',
   url: '',
+  sourceUrl: '',
   image: '',
   description: '',
   active: true
@@ -289,6 +291,20 @@ export default function HomeWidget({
                     ...prev,
                     projects: prev.projects.map((item) =>
                       item.id === project.id ? { ...item, url: event.target.value } : item
+                    )
+                  }))
+                }
+              />
+              <Input
+                placeholder="Source code URL (optional)"
+                value={project.sourceUrl}
+                onChange={(event) =>
+                  setContent((prev) => ({
+                    ...prev,
+                    projects: prev.projects.map((item) =>
+                      item.id === project.id
+                        ? { ...item, sourceUrl: event.target.value }
+                        : item
                     )
                   }))
                 }

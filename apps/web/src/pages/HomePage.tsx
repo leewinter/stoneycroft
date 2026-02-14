@@ -6,6 +6,7 @@ type HomeProject = {
   id: string
   name: string
   url: string
+  sourceUrl: string
   image: string
   description: string
   active: boolean
@@ -109,7 +110,17 @@ export default function HomePage() {
                       target="_blank"
                       rel="noreferrer"
                     >
-                      Visit project
+                      Visit app
+                    </a>
+                  )}
+                  {project.sourceUrl && (
+                    <a
+                      className="home-project__link home-project__link--secondary"
+                      href={project.sourceUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      Source code
                     </a>
                   )}
                 </div>

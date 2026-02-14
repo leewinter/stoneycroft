@@ -7,6 +7,7 @@ export type HomeProject = {
   id: string
   name: string
   url: string
+  sourceUrl: string
   image: string
   description: string
   active: boolean
@@ -44,6 +45,7 @@ function normalizeProjects(input: unknown): HomeProject[] {
       id: item.id ? item.id : makeId(),
       name: item.name ?? '',
       url: item.url ?? '',
+      sourceUrl: item.sourceUrl ?? '',
       image: item.image ?? '',
       description: item.description ?? '',
       active: item.active ?? true

@@ -21,6 +21,7 @@ export type WidgetConfigMap = {
       id: string
       name: string
       url: string
+      sourceUrl: string
       image: string
       description: string
       active: boolean

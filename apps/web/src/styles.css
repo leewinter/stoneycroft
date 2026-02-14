@@ -170,6 +170,11 @@ body {
   transition: opacity 200ms ease, transform 200ms ease;
 }
 
+.home-project__link--secondary {
+  color: #9aa0b8;
+  font-weight: 500;
+}
+
 .home-project:hover .home-project__link {
   opacity: 1;
   transform: translateY(0);
