@@ -1,4 +1,4 @@
-import { Button, Input, Switch, Modal } from 'antd'
+import { Button, Input, Switch, Modal, Select } from 'antd'
 import { useEffect, useMemo, useRef, useState } from 'react'
 
 type HomeProject = {
@@ -360,21 +360,21 @@ export default function HomeWidget({
                   }))
                 }
               />
-              <Input
-                placeholder="Labels (comma-separated)"
-                value={project.labels.join(', ')}
-                onChange={(event) => {
-                  const labels = event.target.value
-                    .split(',')
-                    .map((label) => label.trim())
-                    .filter(Boolean)
+              <Select
+                mode="tags"
+                placeholder="Labels (press Enter)"
+                value={project.labels}
+                onChange={(labels) =>
                   setContent((prev) => ({
                     ...prev,
                     projects: prev.projects.map((item) =>
-                      item.id === project.id ? { ...item, labels } : item
+                      item.id === project.id
+                        ? { ...item, labels: labels.map((label) => label.trim()).filter(Boolean) }
+                        : item
                     )
                   }))
-                }}
+                }
+                options={project.labels.map((label) => ({ value: label, label }))}
               />
             </div>
           </div>
