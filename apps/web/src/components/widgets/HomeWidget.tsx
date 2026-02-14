@@ -59,6 +59,8 @@ export default function HomeWidget({
   const [uploadingId, setUploadingId] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement | null>(null)
+  const dragIdRef = useRef<string | null>(null)
+  const [dragOverId, setDragOverId] = useState<string | null>(null)
 
   useEffect(() => {
     fetch('/api/home')
@@ -207,7 +209,45 @@ export default function HomeWidget({
         )}
         <div className="home-projects-grid home-projects-grid--fixed">
           {content.projects.map((project, index) => (
-            <div key={project.id} className="home-project-card">
+            <div
+              key={project.id}
+              className={`home-project-card${
+                dragOverId === project.id ? ' home-project-card--dragover' : ''
+              }`}
+              draggable
+              onDragStart={(event) => {
+                dragIdRef.current = project.id
+                event.dataTransfer.effectAllowed = 'move'
+                event.dataTransfer.setData('text/plain', project.id)
+              }}
+              onDragOver={(event) => {
+                event.preventDefault()
+                if (dragOverId !== project.id) setDragOverId(project.id)
+                event.dataTransfer.dropEffect = 'move'
+              }}
+              onDragLeave={() => {
+                if (dragOverId === project.id) setDragOverId(null)
+              }}
+              onDrop={(event) => {
+                event.preventDefault()
+                const draggedId = dragIdRef.current ?? event.dataTransfer.getData('text/plain')
+                if (!draggedId || draggedId === project.id) return
+                setContent((prev) => {
+                  const next = [...prev.projects]
+                  const from = next.findIndex((item) => item.id === draggedId)
+                  const to = next.findIndex((item) => item.id === project.id)
+                  if (from === -1 || to === -1) return prev
+                  const [moved] = next.splice(from, 1)
+                  next.splice(to, 0, moved)
+                  return { ...prev, projects: next }
+                })
+                setDragOverId(null)
+              }}
+              onDragEnd={() => {
+                dragIdRef.current = null
+                setDragOverId(null)
+              }}
+            >
             <div className="home-project-card__header">
               <span className="home-project-card__title">App {index + 1}</span>
               <div className="home-project-card__actions">

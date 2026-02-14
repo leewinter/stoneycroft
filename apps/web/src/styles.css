@@ -226,6 +226,16 @@ body {
   padding: 14px;
   display: grid;
   gap: 12px;
+  cursor: grab;
+}
+
+.home-project-card:active {
+  cursor: grabbing;
+}
+
+.home-project-card--dragover {
+  border-color: rgba(124, 92, 255, 0.6);
+  box-shadow: 0 0 0 2px rgba(124, 92, 255, 0.2);
 }
 
 .home-project-card__header {
