@@ -1,4 +1,4 @@
-import { Button, Input, Switch } from 'antd'
+import { Button, Input, Switch, Modal } from 'antd'
 import { useEffect, useMemo, useRef, useState } from 'react'
 
 type HomeProject = {
@@ -61,6 +61,7 @@ export default function HomeWidget({
   const fileInputRef = useRef<HTMLInputElement | null>(null)
   const dragIdRef = useRef<string | null>(null)
   const [dragOverId, setDragOverId] = useState<string | null>(null)
+  const [pendingRemoveId, setPendingRemoveId] = useState<string | null>(null)
 
   useEffect(() => {
     fetch('/api/home')
@@ -294,12 +295,7 @@ export default function HomeWidget({
                 <Button
                   size="small"
                   danger
-                  onClick={() =>
-                    setContent((prev) => ({
-                      ...prev,
-                      projects: prev.projects.filter((item) => item.id !== project.id)
-                    }))
-                  }
+                  onClick={() => setPendingRemoveId(project.id)}
                 >
                   Remove
                 </Button>
@@ -370,6 +366,23 @@ export default function HomeWidget({
 
       {isLoading && <p className="log-viewer__empty">Loading home content...</p>}
       {error && <p className="log-viewer__empty">{error}</p>}
+      <Modal
+        title="Remove this app?"
+        open={Boolean(pendingRemoveId)}
+        okText="Remove"
+        okType="danger"
+        onCancel={() => setPendingRemoveId(null)}
+        onOk={() => {
+          if (!pendingRemoveId) return
+          setContent((prev) => ({
+            ...prev,
+            projects: prev.projects.filter((item) => item.id !== pendingRemoveId)
+          }))
+          setPendingRemoveId(null)
+        }}
+      >
+        <p>This app will be removed from the list.</p>
+      </Modal>
     </div>
   )
 }
