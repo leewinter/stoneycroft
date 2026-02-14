@@ -56,16 +56,17 @@ body {
 
 .home-hero__bg {
   position: absolute;
-  inset: -12%;
-  background:
-    radial-gradient(circle at 20% 20%, rgba(120, 92, 230, 0.35), transparent 55%),
-    radial-gradient(circle at 80% 10%, rgba(48, 210, 255, 0.25), transparent 45%),
-    radial-gradient(circle at 40% 80%, rgba(255, 112, 128, 0.2), transparent 55%),
-    linear-gradient(135deg, rgba(32, 24, 56, 0.7), rgba(12, 10, 20, 0.9));
+  inset: -6%;
   filter: blur(0px);
   transform: translate3d(0, 0, 0);
   transition: transform 120ms ease-out;
   z-index: 0;
+  background-image:
+    linear-gradient(135deg, rgba(18, 16, 28, 0.25), rgba(12, 10, 20, 0.45)),
+    url('/Header.png');
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -408,7 +409,7 @@ h1 {
   display: grid;
   place-items: center;
   border-radius: 14px;
-  background: rgba(255, 255, 255, 0.28);
+  background: transparent;
   overflow: hidden;
 }
 
@@ -416,6 +417,10 @@ h1 {
   max-height: 102px;
   max-width: 100%;
   object-fit: contain;
+  border-radius: 12px;
+  overflow: hidden;
+  display: block;
+  clip-path: inset(0 round 12px);
 }
 
 .app-header {

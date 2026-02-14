@@ -68,7 +68,6 @@ export default function AppShell({
           items={menuItems}
           selectedKeys={[location.pathname]}
           onSelect={(event) => navigate(event.key)}
-          logoBackground={colorBgElevated}
         />
       </Sider>
       <Layout>

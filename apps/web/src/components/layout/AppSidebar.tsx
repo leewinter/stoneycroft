@@ -5,22 +5,13 @@ type Props = {
   items: MenuProps['items']
   selectedKeys: string[]
   onSelect: MenuProps['onClick']
-  logoBackground?: string
 }
 
-export default function AppSidebar({
-  items,
-  selectedKeys,
-  onSelect,
-  logoBackground
-}: Props) {
+export default function AppSidebar({ items, selectedKeys, onSelect }: Props) {
   return (
     <>
-      <div
-        className="app-logo"
-        style={logoBackground ? { background: logoBackground } : undefined}
-      >
-        <img src="/wacoal_int_layer.png" alt="Integration Layer" />
+      <div className="app-logo">
+        <img src="/stoney-logo.png" alt="Stoneycroft" />
       </div>
       <Menu
         theme="dark"
