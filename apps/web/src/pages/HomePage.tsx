@@ -1,4 +1,4 @@
-import { Button } from 'antd'
+import { Button, Select } from 'antd'
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 
@@ -9,6 +9,7 @@ type HomeProject = {
   sourceUrl: string
   image: string
   description: string
+  labels: string[]
   active: boolean
 }
 
@@ -29,6 +30,7 @@ const fallbackContent: HomeContent = {
 
 export default function HomePage() {
   const [content, setContent] = useState<HomeContent>(fallbackContent)
+  const [activeLabels, setActiveLabels] = useState<string[]>([])
   const heroRef = useRef<HTMLDivElement | null>(null)
   const bgRef = useRef<HTMLDivElement | null>(null)
 
@@ -73,6 +75,32 @@ export default function HomePage() {
   }, [])
 
   const visibleProjects = content.projects.filter((project) => project.active)
+  const labelOptions = Array.from(
+    new Set(
+      visibleProjects.flatMap((project) =>
+        Array.isArray(project.labels) ? project.labels : []
+      )
+    )
+  ).sort((a, b) => a.localeCompare(b))
+  const filteredProjects =
+    activeLabels.length === 0
+      ? visibleProjects
+      : visibleProjects.filter((project) =>
+          project.labels.some((label) => activeLabels.includes(label))
+        )
+
+  const getLabelColor = (label: string) => {
+    let hash = 0
+    for (let i = 0; i < label.length; i += 1) {
+      hash = (hash * 31 + label.charCodeAt(i)) >>> 0
+    }
+    const hue = hash % 360
+    return {
+      background: `hsla(${hue}, 70%, 55%, 0.16)`,
+      border: `1px solid hsla(${hue}, 70%, 62%, 0.55)`,
+      color: `hsl(${hue}, 70%, 85%)`
+    }
+  }
 
   return (
     <div className="public-layout">
@@ -91,9 +119,26 @@ export default function HomePage() {
       </section>
       {visibleProjects.length > 0 && (
         <section className="home-projects">
-          <h2>Apps</h2>
+          <div className="home-projects-headline">
+            <h2>Apps</h2>
+            {labelOptions.length > 0 && (
+              <div className="home-filter">
+                <span>Filter</span>
+                <Select
+                  mode="multiple"
+                  allowClear
+                  placeholder="All"
+                  value={activeLabels}
+                  onChange={(values) => setActiveLabels(values)}
+                  options={labelOptions.map((label) => ({ value: label, label }))}
+                  size="small"
+                  className="home-filter__select"
+                />
+              </div>
+            )}
+          </div>
           <div className="home-projects-grid home-projects-grid--fixed">
-            {visibleProjects.map((project, index) => (
+            {filteredProjects.map((project, index) => (
               <article key={project.id || project.url || `${project.name}-${index}`} className="home-project">
                 {project.image && (
                   <div className="home-project__image">
@@ -101,6 +146,19 @@ export default function HomePage() {
                   </div>
                 )}
                 <div className="home-project__body">
+                  {project.labels?.length > 0 && (
+                    <div className="home-project__labels home-project__labels--top">
+                      {project.labels.map((label) => (
+                        <span
+                          key={label}
+                          className="home-project__label"
+                          style={getLabelColor(label)}
+                        >
+                          {label}
+                        </span>
+                      ))}
+                    </div>
+                  )}
                   <h3>{project.name}</h3>
                   {project.description && <p>{project.description}</p>}
                   {project.url && (

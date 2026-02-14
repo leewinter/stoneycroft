@@ -8,6 +8,7 @@ type HomeProject = {
   sourceUrl: string
   image: string
   description: string
+  labels: string[]
   active: boolean
 }
 
@@ -43,6 +44,7 @@ const emptyProject = (): HomeProject => ({
   sourceUrl: '',
   image: '',
   description: '',
+  labels: [],
   active: true
 })
 
@@ -358,10 +360,26 @@ export default function HomeWidget({
                   }))
                 }
               />
+              <Input
+                placeholder="Labels (comma-separated)"
+                value={project.labels.join(', ')}
+                onChange={(event) => {
+                  const labels = event.target.value
+                    .split(',')
+                    .map((label) => label.trim())
+                    .filter(Boolean)
+                  setContent((prev) => ({
+                    ...prev,
+                    projects: prev.projects.map((item) =>
+                      item.id === project.id ? { ...item, labels } : item
+                    )
+                  }))
+                }}
+              />
             </div>
-            </div>
-          ))}
-        </div>
+          </div>
+        ))}
+      </div>
       </div>
 
       {isLoading && <p className="log-viewer__empty">Loading home content...</p>}

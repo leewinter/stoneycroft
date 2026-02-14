@@ -36,6 +36,7 @@ export default function SettingsPage() {
             sourceUrl: string
             image: string
             description: string
+            labels: string[]
             active: boolean
           }[]
         }

@@ -10,6 +10,7 @@ export type HomeProject = {
   sourceUrl: string
   image: string
   description: string
+  labels: string[]
   active: boolean
 }
 
@@ -48,6 +49,9 @@ function normalizeProjects(input: unknown): HomeProject[] {
       sourceUrl: item.sourceUrl ?? '',
       image: item.image ?? '',
       description: item.description ?? '',
+      labels: Array.isArray(item.labels)
+        ? item.labels.map((label) => String(label).trim()).filter(Boolean)
+        : [],
       active: item.active ?? true
     }
   })

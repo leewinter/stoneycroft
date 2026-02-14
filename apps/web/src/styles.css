@@ -91,6 +91,25 @@ body {
   gap: 16px;
 }
 
+.home-projects-headline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.home-filter {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: #a29cb4;
+}
+
+.home-filter__select {
+  min-width: 200px;
+}
+
 .home-projects h2 {
   margin: 0;
   font-size: clamp(1.6rem, 3vw, 2.2rem);
@@ -175,6 +194,24 @@ body {
   color: #d7c8ff;
   font-weight: 600;
   text-decoration: none;
+}
+
+.home-project__labels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.home-project__labels--top {
+  margin-bottom: 6px;
+}
+
+.home-project__label {
+  padding: 3px 10px;
+  border-radius: 10px;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .home-project__link {

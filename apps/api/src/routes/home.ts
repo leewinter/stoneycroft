@@ -12,6 +12,7 @@ type IncomingProject = {
   sourceUrl?: string
   image?: string
   description?: string
+  labels?: string[]
   active?: boolean
 }
 
@@ -54,6 +55,9 @@ export function registerHomeRoutes(app: Hono) {
           sourceUrl: project?.sourceUrl?.toString().trim() ?? '',
           image: project?.image?.toString().trim() ?? '',
           description: project?.description?.toString().trim() ?? '',
+          labels: Array.isArray(project?.labels)
+            ? project.labels.map((label) => label?.toString().trim()).filter(Boolean)
+            : [],
           active: Boolean(project?.active ?? true)
         }))
       : []
