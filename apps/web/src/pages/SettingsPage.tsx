@@ -2,6 +2,7 @@ import { Button, Input, Modal, Select } from 'antd'
 import LogViewer from '../components/logs/LogViewer'
 import UsersWidget from '../components/widgets/UsersWidget'
 import HomeWidget from '../components/widgets/HomeWidget'
+import EmailTemplateWidget from '../components/widgets/EmailTemplateWidget'
 import { useCustomPages } from '../hooks/useCustomPages'
 import { useWidgets } from '../hooks/useWidgets'
 import { menuIconOptions } from '../lib/menuIcons'
@@ -181,6 +182,7 @@ export default function SettingsPage() {
           })()
         }
       />
+      <EmailTemplateWidget />
       <Modal
         title="Choose widget destination"
         open={isDestinationOpen}

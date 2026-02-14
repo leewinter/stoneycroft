@@ -4,6 +4,10 @@ import nodemailer from 'nodemailer'
 import { env } from '../config/env'
 import { logger } from '../lib/logger'
 import {
+  defaultEmailTemplate,
+  readEmailTemplate
+} from '../lib/emailTemplateStore'
+import {
   consumeMagicToken,
   createMagicToken,
   createSession,
@@ -76,21 +80,26 @@ export function registerAuthRoutes(app: Hono) {
     const origin = normalizeOrigin(env.appOrigin) ?? new URL(c.req.url).origin
     const magicUrl = new URL('/magic', origin)
     magicUrl.searchParams.set('token', token)
+    const logoUrl = new URL('/stoney-logo.png', origin).toString()
 
     if (transporter) {
       try {
+        const template = readEmailTemplate()
         const html = `
           <div style="font-family: 'Helvetica Neue', Arial, sans-serif; background:#f6f7fb; padding:32px;">
             <div style="max-width:520px; margin:0 auto; background:#ffffff; border-radius:16px; padding:28px; box-shadow:0 12px 30px rgba(15,23,42,0.08);">
-              <h1 style="margin:0 0 12px; font-size:22px; color:#111827;">Sign in to Integration Layer</h1>
+              <div style="margin-bottom:18px;">
+                <img src="${logoUrl}" alt="Stoneycroft" style="max-width:160px; height:auto; display:block;" />
+              </div>
+              <h1 style="margin:0 0 12px; font-size:22px; color:#111827;">${template.heading}</h1>
               <p style="margin:0 0 20px; font-size:15px; line-height:1.6; color:#4b5563;">
-                Use the button below to sign in. This link expires in about 15 minutes and can only be used once.
+                ${template.body}
               </p>
               <a href="${magicUrl.toString()}" style="display:inline-block; padding:12px 20px; background:#111827; color:#ffffff; text-decoration:none; border-radius:999px; font-size:15px;">
-                Sign in
+                ${template.buttonText}
               </a>
               <p style="margin:20px 0 0; font-size:13px; color:#6b7280;">
-                If the button doesn't work, copy and paste this link into your browser:
+                ${template.footer}
               </p>
               <p style="margin:8px 0 0; font-size:13px; color:#2563eb; word-break:break-all;">
                 ${magicUrl.toString()}
@@ -102,8 +111,8 @@ export function registerAuthRoutes(app: Hono) {
         const info = await transporter.sendMail({
           from: env.smtpFrom,
           to: email,
-          subject: 'Your magic sign-in link',
-          text: `Use this link to sign in (expires in 15 minutes): ${magicUrl.toString()}`,
+          subject: template.subject || defaultEmailTemplate.subject,
+          text: `${template.body}\n\n${magicUrl.toString()}`,
           html
         })
         logger.info(

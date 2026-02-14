@@ -9,6 +9,7 @@ import { registerAuthRoutes } from './routes/auth'
 import { registerHealthRoutes } from './routes/health'
 import { registerLogRoutes } from './routes/logs'
 import { registerHomeRoutes } from './routes/home'
+import { registerEmailTemplateRoutes } from './routes/emailTemplate'
 import { registerUserRoutes } from './routes/users'
 
 export function createApp() {
@@ -44,6 +45,7 @@ export function createApp() {
   registerHealthRoutes(app)
   registerLogRoutes(app)
   registerHomeRoutes(app)
+  registerEmailTemplateRoutes(app)
   registerUserRoutes(app)
   registerAuthRoutes(app)
 
