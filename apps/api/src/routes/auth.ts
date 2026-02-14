@@ -38,6 +38,15 @@ if (transporter) {
 }
 
 export function registerAuthRoutes(app: Hono) {
+  const normalizeOrigin = (value?: string | null) => {
+    const trimmed = value?.trim()
+    if (!trimmed) return null
+    if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
+      return trimmed
+    }
+    return `https://${trimmed}`
+  }
+
   app.get('/api/me', (c) => {
     pruneExpired()
     const sessionId = getCookie(c, 'session')
@@ -64,7 +73,7 @@ export function registerAuthRoutes(app: Hono) {
     }
 
     const token = createMagicToken(email)
-    const origin = env.appOrigin ?? new URL(c.req.url).origin
+    const origin = normalizeOrigin(env.appOrigin) ?? new URL(c.req.url).origin
     const magicUrl = new URL('/magic', origin)
     magicUrl.searchParams.set('token', token)
 
