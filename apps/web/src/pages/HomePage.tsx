@@ -90,7 +90,7 @@ export default function HomePage() {
       </section>
       {visibleProjects.length > 0 && (
         <section className="home-projects">
-          <h2>Projects</h2>
+          <h2>Apps</h2>
           <div className="home-projects-grid home-projects-grid--fixed">
             {visibleProjects.map((project, index) => (
               <article key={project.id || project.url || `${project.name}-${index}`} className="home-project">

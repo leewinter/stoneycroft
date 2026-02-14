@@ -152,7 +152,7 @@ export default function HomeWidget({
 
       <div className="home-projects-editor">
         <div className="home-projects-header">
-          <h4>Projects</h4>
+          <h4>Apps</h4>
           <Button size="small" onClick={() => setContent((prev) => ({
             ...prev,
             projects: [...prev.projects, emptyProject()]
@@ -201,13 +201,13 @@ export default function HomeWidget({
           }}
         />
         {content.projects.length === 0 && (
-          <p className="log-viewer__empty">No projects yet.</p>
+          <p className="log-viewer__empty">No apps yet.</p>
         )}
         <div className="home-projects-grid home-projects-grid--fixed">
           {content.projects.map((project, index) => (
             <div key={project.id} className="home-project-card">
             <div className="home-project-card__header">
-              <span className="home-project-card__title">Project {index + 1}</span>
+              <span className="home-project-card__title">App {index + 1}</span>
               <div className="home-project-card__actions">
                 <label className="widget-toggle">
                   <Switch
