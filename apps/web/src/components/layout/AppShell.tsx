@@ -41,7 +41,7 @@ export default function AppShell({
         return {
           key: '/',
           icon: getMenuIcon('home'),
-          label: 'Overview'
+          label: 'Home'
         }
       }
       if (id === 'settings') {

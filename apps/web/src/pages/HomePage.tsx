@@ -28,7 +28,11 @@ const fallbackContent: HomeContent = {
   projects: []
 }
 
-export default function HomePage() {
+type Props = {
+  showSignIn?: boolean
+}
+
+export default function HomePage({ showSignIn = true }: Props) {
   const [content, setContent] = useState<HomeContent>(fallbackContent)
   const [activeLabels, setActiveLabels] = useState<string[]>([])
   const heroRef = useRef<HTMLDivElement | null>(null)
@@ -104,13 +108,15 @@ export default function HomePage() {
 
   return (
     <div className="public-layout">
-      <header className="public-header">
-        <Link to="/login">
-          <Button size="small" type="primary">
-            Sign in
-          </Button>
-        </Link>
-      </header>
+      {showSignIn && (
+        <header className="public-header">
+          <Link to="/login">
+            <Button size="small" type="primary">
+              Sign in
+            </Button>
+          </Link>
+        </header>
+      )}
       <section className="hero home-hero" ref={heroRef}>
         <div className="home-hero__bg" ref={bgRef} />
         <p className="eyebrow">{content.tagline}</p>

@@ -6,7 +6,6 @@ import AuthHero from './components/auth/AuthHero'
 import VerifyPanel from './components/auth/VerifyPanel'
 import { useAuth } from './hooks/useAuth'
 import { useTheme } from './hooks/useTheme'
-import OverviewPage from './pages/OverviewPage'
 import SettingsPage from './pages/SettingsPage'
 import DynamicPage from './pages/DynamicPage'
 import HomePage from './pages/HomePage'
@@ -49,7 +48,7 @@ export default function App() {
             onThemeChange={setTheme}
           >
             <Routes>
-              <Route path="/" element={<OverviewPage />} />
+              <Route path="/" element={<HomePage showSignIn={false} />} />
               <Route path="/settings" element={<SettingsPage />} />
               <Route path="/page/:pageId" element={<DynamicPage />} />
               <Route path="*" element={<Navigate to="/" replace />} />
