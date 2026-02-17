@@ -11,7 +11,7 @@ export default function AppSidebar({ items, selectedKeys, onSelect }: Props) {
   return (
     <>
       <div className="app-logo">
-        <img src="/stoney-logo.png" alt="Stoneycroft" />
+        <img src="/stoney-logo-light.png" alt="Stoneycroft" />
       </div>
       <Menu
         theme="dark"
